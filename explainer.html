@@ -470,27 +470,28 @@
             given consent (Article 7-3), and to object to the use of legitimate interests (Article 21). 
           </p>
           <p>
-            As explained earlier in [[[#gpc-signal-specification]]], the GPC signal can
-            indicate preferences regarding refusing to opt-in and asking to opt-out. In the context of the GDPR, opt-ins can be treated as analogous to giving informed consent (Article 6-1a), and opt-out can be analogous to withdrawing given consent (Article 7-3) and objecting to legitimate interests (Article 6-1f). In this, it is important to note that
-            the GDPR Article 6-1f specifically distinguishes between legitimate interests of
-            the 'data controller' (which may be the same as first party in GPC) and those of 'third parties' (which may be the same as third parties in GPC). 
+            As explained earlier in [[[#gpc-signal-specification]]], the GPC signal can be
+            interpreted as the user expressing their preferences regarding refusing to opt-in and asking to opt-out. In the context of the GDPR, opt-ins can be treated as analogous to giving informed consent (Article 6-1a), and opt-out can be analogous to withdrawing given consent (Article 7-3) and objecting to legitimate interests (Article 6-1f). While other opt-ins and opt-outs are also possible, for example,
+            as part of a contract or public interests legal basis, this section only
+            discusses consent and legitimate interests.
             Of these, the GDPR only explicitly acknowledges the objection to
             legitimate interests to be made "<i>by automated means using technical specifications</i>", which includes signals like GPC.
-            Other uses of signals, though not explicitly permitted in the GDPR, are 
-            also not prohibited.
+            Other uses of signals, including to refuse and withdraw consent, are not explicitly permitted in the GDPR, but are also not prohibited.
           </p>
           <p>
-            Within the EU's legal framework, it is unusual for laws such as the GDPR
-            to explicitly refer to a specific technical specification and to dictate
-            that it is binding. Instead, the EU legal framework relies on several mechanisms
-          through which signals could become legally enforceable. These include:</p>
-          <ol type="i">
-            <li><i>harmonised standards</i>: Standards explicitly dictated by law and developed by one of the recognised EU standardisation bodies. For GPC, the harmonised standard would state the effects of GPC and be published by a body such as CEN or ETSI.</li>
-            <li><i>de-facto standards</i>: Technologies widely adopted such that it becomes part of common expectations to consider them as being supported. This could happen if GPC were to be standardised and is implemented by all major browsers or websites.</li>
-            <li><i>authoritative adoption</i>: A law gives an authority or body the power to dictate whether a technical specification should be binding. In the case of GDPR, it does not explicitly provide such powers to authorities.</li>
-            <li><i>court interpretation</i>: A court confirms that a privacy signal is legally relevant. This can be seen from a recent case law where the use of DNT signal was confirmed as being relevant by a German court (<a href="https://www.vzbv.de/en/court-prohibits-linkedins-data-privacy-infringements">case 16 O 420/19, District Court Berlin</a>).
-          </ol>
-          <p>GDPR authorities cannot unilaterally make a signal like GPC legally binding without relevant support from the law. Article 21-5 explicitly provides for automated means such as GPC to be used to object to legitimate interests, which could be confirmed by GDPR authorities or courts. A similar use of the GPC signal regarding refusal or withdrawal of consent does not have a similar explicit support. However, as noted above, if a technology becomes widely adopted, then it may be considered as binding by the authorities as part of the 'data protection by design and default' requirements of the GDPR (Article 25) which require the adoption of technical measures such as data minimisation. The GDPR authorities can however recommend that GPC be used as part of their guidance and campaigns in order to speed up the process. </p>
+            The GDPR assigns roles to entities based on their involvement in the processing
+            of a data subject's personal data (Article 4). The roles of first party and
+            third party used in the GPC specification therefore need to be interpreted
+            in context of the roles of Controller, Processor, and Third Party in the GDPR.
+            Since the GPC specification only defines the GPC signal to restrict third parties,
+            whether they are the same as third parties under GDPR is necessary for GPC's 
+            implementations.
+            Further, GDPR Article 6-1f specifically distinguishes between legitimate interests of
+            the 'data controller' (which may be the same as first party in GPC) and those of 'third parties' (which may be the same as third parties in GPC). 
+            This means the data subject may use the GPC to specifically object to legitimate
+            interests of only the third parties without disrupting the controller's (or first
+            party) legitimate interests.
+          </p>
           <p>
             A GPC signal, in the context of the GDPR, can be interpreted based on the
             context of the situation. Since the GPC only acts regarding data being
@@ -505,6 +506,45 @@
             that the data subject does not wish to consent. Similarly, if it were taking
             place using legitimate interests, it could mean the data subject wishes
             to object to them.
+          </p>
+          <p>
+            Within the EU's legal framework, it is unusual for laws such as the GDPR
+            to explicitly refer to a specific technical specification and to dictate
+            that it is binding. Instead, the EU legal framework relies on several mechanisms
+          through which signals could become legally enforceable. These include:</p>
+          <ol type="i">
+            <li><i>Harmonised Standards</i>: Standards explicitly dictated by law and developed by one of the recognised EU standardisation bodies. This is mentioned in the
+            proposed GDPR Article 88b. To enable use of GPC under this mechanism, the harmonised
+            standard would have to refer to GPC as a signal that satisfies its reuqirements,
+            or the GPC documentation would have to be updated to demonstrate this.
+            In any case, harmonised published can only be published by a body such as CEN or ETSI, and which allow for external liasons to support drafting the standards.</li>
+            <li><i>De-facto Standards</i>: Technologies widely adopted such that they become part of common expectations and must be supported. An example of this is the use 
+            of HTTPS and SSL, which is not explicitly mentioned by any law or authority, but
+            can reasonably be considered necessary based on the widespread adoption. Similarly,
+            if GPC signals are widely adopted by major browsers and/or websites, it can be
+            argued to be considered similarly necessary to respect.</li>
+            <li><i>Authoritative Adoption</i>: A law gives an authority or body the power to dictate whether a technical specification should be binding. In the case of GDPR, it does not explicitly provide such powers to authorities, but the implementation of
+            existing Article 21-5 (automated objections) and the proposed Article 88b can be
+            interpreted as allowing authorities to indicate which signals they consider 
+            should be respected. In the previous section on EU law, this argument was used
+            to explain how the GPC could be confirmed as being applicable by authorities.</li>
+            <li><i>Court Interpretation</i>: A court confirms that a privacy signal is legally relevant. This can be seen from a recent case law where the use of DNT signal was confirmed as being relevant by a German court (<a href="https://www.vzbv.de/en/court-prohibits-linkedins-data-privacy-infringements">case 16 O 420/19, District Court Berlin</a>).
+          </ol>
+          <p>Of the above, the most likely and convenient means are as de-facto standards
+            where GPC is widely implemented and the authorities confirm that it must be
+            respected, or as authoritative adoption where GPC is confirmed by authorities
+            as an automated method for objecting to legitimate interests under Article 21-5.
+          </p>
+          <p>
+            The GPC specification itself does not dictate any requirements for the user
+            interface and experience that the user-agent (e.g. browser) or website may
+            decide to provide. Some laws such as the Californian CCPA require specific
+            visual indicators to represent whether a site supports GPC. In the EU/EEA,
+            laws that require information to be presented
+            in advance of processing are typically seen as the reason for the
+            consent popups (from GDPR) and cookie banners (from ePrivacy Directive).
+            The [[[#user-experience-considerations-and-recommendations]]] section later
+            in this document provides further discussion on this topic. 
           </p>
           <p>
             Further information may be found in relevant literature:
@@ -574,6 +614,13 @@
             refusing/withdrawing consent, it could also be used to justify GPC
             as a binding mechanism for the refusing/withdrawing of consent and the
             objection to legitimate interests.
+          </p>
+          <p>
+            The proposed <a href="https://ec.europa.eu/info/law/better-regulation/have-your-say/initiatives/14622-Digital-Fairness-Act_en">
+            Digital Fairness Act</a>, which concerns consumer protection,
+            could also potentially include rules for how technical signals
+            such as GPC must be respected, and could define specific
+            rights for consumers to this effect.
           </p>
         </section>
       </section>
