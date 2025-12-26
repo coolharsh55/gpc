@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" async class="remove"></script>
+    <title>GPC Legal Considerations Guide</title>
+    <script class="remove">
+      var respecConfig = {
+        specStatus: 'ED',
+        xref: ['html'],
+        editors: [
+          {
+            name: 'Aram Zucker-Scharff',
+            company: 'The Washington Post',
+            companyURL: 'https://www.washingtonpost.com/',
+            url: 'https://aramzs.github.io/aramzs/',
+            w3cid: 113554,
+          },
+          {
+            name: 'Justin Brookman',
+            company: 'Consumer Reports',
+            companyURL: 'https://www.consumerreports.org/',
+            w3cid: 80718,
+          },
+          {
+            name: 'Sebastian Zimmeck',
+            company: 'Wesleyan University',
+            companyURL: 'https://www.wesleyan.edu/',
+            url: 'https://www.privacytechlab.org/',
+            w3cid: 122220,
+          },
+        ],
+        shortName: 'gpc',
+        group: "wg/privacy",
+        github: 'w3c/gpc',
+        latestVersion: "https://w3c.github.io/gpc/explainer",
+        noRecTrack: true,
+        xref: ['html', 'webdriver'],
+        localBiblio: {
+          'CCPA-AG-FINAL-STATEMENT': {
+            title: 'California Attorney General CCPA Final Statement of Reasons',
+            href: 'https://oag.ca.gov/sites/all/files/agweb/pdfs/privacy/ccpa-fsor.pdf',
+          },
+          'CCPA-REGULATIONS': {
+            title: 'CCPA Regulations',
+            href: 'https://www.oag.ca.gov/sites/all/files/agweb/pdfs/privacy/oal-sub-final-text-of-regs.pdf?',
+          },
+          'CPPA-REGULATIONS': {
+            title: 'CPPA Regulations',
+            href: 'https://cppa.ca.gov/regulations/pdf/cppa_regs.pdf'
+          },
+          'EPRIVACY-DIRECTIVE': {
+            title: 'Directive 2009/136/EC (ePrivacy Directive)',
+            href: 'https://edps.europa.eu/data-protection/our-work/publications/legislation/directive-2009136ec_en',
+          },
+          'GDPR': {
+            title: 'General Data Protection Regulation (GDPR)',
+            href: 'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679&from=EN',
+          },
+          'SB220': {
+            title: 'Nevada SB220 (NRS 603A)',
+            href: 'https://www.leg.state.nv.us/NRS/NRS-603A.html',
+          },
+          'COLORADO-REGULATIONS': {
+            title: 'Colorado Regulations',
+            href: 'https://coag.gov/app/uploads/2023/03/FINAL-CLEAN-2023.03.15-Official-CPA-Rules.pdf'
+          },
+        },
+      };
+    </script>
+    <style>
+      .change { color: blue; }
+      .st { text-decoration: line-through; color: red; }
+    </style>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        [[[GPC]]] is a proposed specification designed to allow Internet users to notify businesses of their preference to not have their personal information sold or shared, or used for cross-context targeted advertising. It consists of a setting or extension in the user’s browser that provides a mechanism that websites can use to indicate they support the specification.</p>
+        <aside class="note" title="Informative Contents">
+          <p>This Legal and Implementation Considerations Guide is designed to give an overview of how GPC operates as well as a summary of the legal effects GPC may have in different jurisdictions. However, this document is for informative purposes only and does not constitute legal advice.
+          </p>
+        </aside>
+    </section>
+    <section id="sotd"></section>
+    <section>
+      <h2>Introduction</h2>
+      <p>An increasing number of laws and regulatory environments require that
+      sites respect people’s choices <span class="change">regarding how their
+        personal data is or is not shared or sold to third parties, and </span>
+        to not be tracked across different
+      contexts. While these laws describe privacy choices in different ways it
+      is clear that they represent an interest in giving people the capability
+      to exercise a right to privacy and that people have an interest in
+      exercising that right.</p>
+      <p><span class="st">Some laws establish a requirement for a universal control that can
+      present this opt out request at a user-agent level automatically, making
+      it easier for people to exercise their rights without negotiating a
+      site-level user interface.</span></p>
+      <p class="change">Laws in specific jurisdictions vary in their requirements
+        for how users can express their preferences, including whether this can
+        be done through a universal control or signal, like [[GPC]], which 
+        is automatically communicated by the user-agent, and which makes it easier
+        for people to exercise their rights without negotiating a site-level
+      user interface</p>
+      <p>With this in mind the [[GPC]] specification proposes a way for
+      user-agents to present people’s preferences <span class="st">to opt out</span>
+      to sites via both
+      a header and a JavaScript object. The specification intends to capture
+      the standard ways sites currently <span class="st">handle opt out</span>
+      <span class="change">privacy</span> choices.</p>
+      <p>The motivation of GPC is to:</p>
+      <ol type="1">
+      <li>Make it easy for people to clearly and unambiguously present their
+      privacy preference to a website and the various technologies it may
+      run.</li>
+      <li>Allow website developers to incorporate people’s privacy choices
+      with as little delay and complexity as possible.</li>
+      </ol>
+      <p>The [[GPC]] specification also provides an option for sites to provide a 'GPC
+      Support Resource' that allows sites to state that they are aware of and
+      support the GPC specification. <span class="change">Specific laws and their implementations may
+      require that GPC be respected.</span>
+      The goal of the GPC Support Resource is to allow
+      sites to <span class="change">communicate that they respect GPC proactively</span>. 
+      This demonstration is useful to
+      regulators, lawyers, and activists in determining the impact of people’s
+      privacy choices as well as sites’ awareness. It is also useful in giving
+      people a clear signal that their privacy choices are respected to the
+      best of a site’s ability.</p>
+      <p class="change">Further to this document, it is also recommended to read the [[[privacy-principles]]], which is a W3C Statement (highest maturity of a W3C non-standard document). The GPC
+        specification relies on several key concepts and principles described in this
+        document, in particular regarding privacy, choices, and key concepts.
+      </p>
+    </section>
+    <section>
+      <h2>GPC Signal &amp; Specification</h2>
+      <section>
+        <h3>Technical Scope</h3>
+        <p class="change">
+          The [[[GPC]]] is a signal that is automatically communicated by the user-agent,
+          for example as the web browser used by the user to visit website, or
+          as part of the device or its apps through which the user accesses a service.
+          Configuration of the GPC signal is not defined in the GPC specification, and is left to the user-agents (e.g. browsers, devices) as part of their existing relationships with 
+        the user. This means, for example, that some browsers may choose to make GPC active by default, whereas others may opt to ask the user during the setup process or provide it as part of their settings.</p>
+        <p class="change">
+          A GPC signal can only be expressed in one form - it is either on and active,
+          or it not communicated at all i.e. it is 'absent'. It is thus a 'unary signal'.
+          A site can only ascertain that GPC is 'present' and thus is 'on' and active', or that it is 'absent'. A site should not interpret the absence of a GPC signal as an indication
+          that it is 'off' or 'inactive' as this would be ambiguous from cases where the user
+          is not using GPC or that the use of GPC is not supported by the user-agent.
+        </p>
+        <p class="change">
+          When the GPC signal is present and being communicated, the [[GPC]] specification intentionally only allows one single and consistent value to be communicated from the user to the site. This single value represents the preference of the user for their "data not be sold to or shared with any party other than the one the person intends to interact with, or to have their data used for cross-context ad targeting" (as defined in the [[GPC]] specification). 
+          The use of a GPC signal to indicate any other preference or information is not 
+          supported. This means a website cannot use the GPC signal itself to communicate
+          back with the user, and neither can the user use the GPC signal to indicate other
+          preferences to the website.
+          And as explained before, an absence of the GPC signal should not be taken to mean the opposite i.e. the user is somehow permitting their data to be sold or shared, or that the user is signalling a different preference than the one defined in the GPC specification.
+          The GPC signal is thus a single directional communication mechanism that only allows users
+          to express their preference to the websites and does not support anything else. This means other communication needs, whether from
+          the user or from the websites, must be achieved through other existing means.
+        </p>
+        <p class="change">
+          The [[GPC]] specification does not dictate how websites should behave
+          when receiving the GPC signal. This means websites can choose whether to accept it without informing the users, or to confirm with the users before applying it, or to ignore it and then whether to inform the users. The [[GPC]] specification recommends,
+          but does not require, websites to indicate whether they support the GPC signal through the
+          'GPC Support Resource'. As noted in the specification, legal requirements may dictate
+          how and where GPC should be supported, and whether websites are required to implement
+          it in a specific manner. The goal of this document is to support implementors in 
+          aligning the use of GPC with relevant laws, however, without providing any authorative
+          legal advice or normative interpretations.
+        </p>
+      </section>
+      <section>
+        <h3>Opt-in vs Opt-out</h3>
+        <p class="change">
+          In understanding the legal effects of using a GPC signal, we can
+          consider laws and legal frameworks, which vary greatly across jurisdictions,
+          as having two broadly defined mechanisms. The first mechanism is
+          through an <strong>opt-in</strong>,
+          where the user agrees to a proposed use of their personal data i.e. before
+          it has begun, and where it cannot initiate unless the user acts affirmatively. Opt-ins
+          can also be implemented through <i>informed consent</i> where the user
+          is provided with relevant information and then makes a decision on whether
+          to accept or reject the proposal. Some jurisdictions may also define 
+          rights regarding the ability of the user to give informed consent, as well as
+          to revoke or withdraw an already given consent.
+          The second mechanism is through an <strong>opt-out</strong>, where the
+          personal data is already being used, and the user must agree to stop its use,
+          i.e. the data use continues unless the user acts preventatively.
+          As with consent, some jurisdictions may also define opt-outs as a right of the
+        user. The [[Privacy-Principles]] document provides further guidance on these concepts.</p>
+        <p class="change">
+          While the two mechanisms of opt-in and opt-out are contradictory in 
+          that they cannot be implemented simultaneously, legal frameworks can support
+          both in different contexts. For example, specific uses of data may require
+          an opt-in consent, whereas others may require an opt-out.
+          In both cases, the user is required to communicate an intent or preference,
+          which the GPC signal can support. For opt-ins, the GPC signal cannot 
+          communicate that the user wants to opt-in or gives consent to enable
+          the sharing or selling of personal data. Instead, the GPC signal
+          can (only) communicate that the user does not want to share or sell their personal data, and which can be taken to mean that the user does not want to given consent for these.
+          Similarly, for opt-outs, the GPC signal can (only) be taken to mean
+          that the user wants to opt-out of sharing or selling their personal data.
+          The GPC signal cannot be used to communicate that the user does not want to opt-out.
+        </p>
+        <p class="change">
+          To summarise: the GPC signal can be used to indicate a preference that the user: 
+        </p>
+        <ol type="1" class="change">
+          <li>Does not want to opt-in regarding the selling or sharing of their personal data to third parties or its use in cross-context targeted advertising; or </li>
+          <li>Does want to opt-out regarding the selling or sharing of their personal data to third parties or its use in cross-context targeted advertising; or </li>
+        </ol>
+      </section>
+      <section class="change">
+        <h3>First vs Third Party</h3>
+        <p>
+          The preference communicated through a GPC signal is not intended to affect 
+          any use of personal data by the first party (e.g. website or service provider).
+          This means a website or service receiving a GPC signal is not 
+          required to change its own behaviour unless it is involves third parties
+          or cross-context advertising.
+        </p>
+        <p>
+          The notion of first and third parties is not strictly defined in the GPC specification itself. The [[Privacy-Principles]] document provides a web-focused explanation
+          of first and third parties, and how they relate to the user and their interactions.
+          In addition, specific legal frameworks may also define specific roles
+          as first and third parties which may or may not be clear for actors on the web.
+          As such, the implementation of the GPC signal's effects is dependant on
+          the identification and categorisation of actors as first and third parties,
+          and thus can vary across locations and contexts due to the changes in websites,
+          users, and applicable jurisdictions.
+        </p>
+      </section>
+      <section class="change">
+        <h3>Context</h3>
+        <p>
+          The GPC specification defines the 'do-not-sell-or-share preference' with
+          a limitation on data being used for 'cross-context ad targeting'. 
+          The [[Privacy-Principles]] document defines context as "<i>a physical or digital 
+            environment in which people interact with other actors, 
+          and which the people understand as distinct from other contexts</i>".
+          It is thus a subjective concept and it intended to provide flexibility
+          to ascertain how the user's privacy should best be implemented within
+          the context in which the GPC is being applied.
+          The [[Privacy-Principles]] document further notes that "<i>A context is 
+          not defined in terms of who owns or controls it</i>" and that "<i>Sharing
+          data between different contexts of a single company can be a privacy violation, just as if the same data were shared between unrelated actors</i>".
+          This further indicates that 'cross-context' has a strong focus on 
+          privacy preservation and that the use of GPC is intended as an indication
+          that the user wishes to apply this to their data.
+        </section>
+      </section>
+    <section>
+      <h2>Legal Effects of GPC</h2>
+      <p class="change">
+        As the GPC signal communicates a preference from the user regarding
+        their personal data, this may trigger a legal effect based on the
+        specifics of the situation. For example, if the jurisdiction has
+        a law that dictates that privacy signals must be respected, then 
+        the GPC may be considered binding. Similarly, if the jurisdiction
+        has a law that dictates that user preferences must be taken into
+        account when requesting a decision, then the use of
+        GPC may lead to specific changes in the decision making process.
+        The goal of this section is to provide a summary regarding the use 
+        of GPC in three concrete contexts: first regarding laws that 
+        specifically support the GPC; second regarding laws where the use of
+        GPC may have relevant interpretations; and finally third where future
+        laws could benefit from supporting the use of GPC. In all three cases,
+        the GPC specification itself does not dictate how GPC should be 
+        interpreted under the law. Instead, the guidance provided here is
+        to assist relevant stakeholders (e.g. implementers, lawyers, law makers, users)
+        to understand how the use of GPC could be supported through law, and to
+        assist in relevant legal mechanisms implementing it.
+      </p>
+      <section>
+        <h3>Defined legal effects under existing laws</h3>
+        <p>
+          <span class="change">As of now, only four states in the U.S. have a defined legal effect
+          regarding the use of GPC. These are California, Colorado, Connecticut, and New Jersey.</span>. Other states and jurisdictions who have relevant laws and mechanisms but lack an explicit and formal acknowledgement regarding GPC's legal effects are described in
+          [[[#potential-legal-effects]]].
+        </p>
+        
+        <section>
+          <h4>California Consumer Privacy Act (CCPA)</h4>
+          <p>In 2018, California passed the first comprehensive privacy law in the
+          United States. In addition to transparency obligations, the right to
+          access personal information, and the right to delete personal
+          information held by businesses, the CCPA gave California residents for
+          the first time the legal right to opt out of the sale of their personal
+          information. The CCPA included text that a consumer could appoint
+          another entity to exercise their rights on their behalf. In January
+          2021, the California Attorney General <a
+          href="https://digiday.com/media/why-a-tweet-from-californias-ag-about-a-global-privacy-tool-has-companies-scrambling/">issued
+          guidance</a> to businesses that sending GPC signals is to be interpreted
+          as a legally binding exercise of opt-out rights under California law.
+          Subsequently, the California Attorney General’s office updated its <a
+          href="https://oag.ca.gov/privacy/ccpa">Frequently Asked Questions
+          page</a>, which in addition to other guidance, stated that GPC signals
+          were legally binding invocation of opt-out rights under California
+          law.</p>
+          <p>Under the CCPA, the California Attorney General is empowered to issue
+          regulations offering more clarity about specific portions of the text of
+          the law. The <a href="https://oag.ca.gov/privacy/ccpa/reg">initial set
+          of regulations</a> provided more clarity on how global opt-out signals
+          should be interpreted as opt-out requests under the law. See § 999.315.
+          Requests to Opt-Out (though note that these regulations have since been
+          superceded — see following paragraphs).</p>
+          <p>In November 2020, California voters approved an update to the CCPA
+          under the California Privacy Rights Act ballot initiative. The
+          initiative expanded the CCPA in a number of ways, including through the
+          creation of a new privacy regulator (the California Privacy Protection
+          Agency) and through <a href="https://thecpra.org/#1798.135(e)">increased
+          specificity</a> on the legally binding nature of global privacy signals.
+          Under the CPRA, the California Privacy Protection Agency was directed to
+          expand on previously issued regulations.</p>
+          <p>In March 2023, the Agency issued <a
+          href="https://cppa.ca.gov/regulations/consumer_privacy_act.html">revised
+          regulations</a>, including provisions on the operation of “opt-out
+          preference signals.” See § 7025. Opt-out Preference Signals. The text
+          includes detailed requirements around issues such as: the technical
+          requirements for opt-out preference signals, when to apply browser-based
+          opt-out preference signals to other consumer data, and when businesses
+          can rely upon specific consent to disregard opt-out preference signals.
+          The regulations includes illustrative examples on how the rules should
+          work in practice.</p>
+          <p>In August 2022, the California Attorney issued its <a
+          href="%5Bhttps://oag.ca.gov/news/press-releases/attorney-general-bonta-announces-settlement-sephora-part-ongoing-enforcement">first
+          enforcement action</a> under the CCPA, alleging that the makeup company
+          Sephora adopted an unduly narrow definition of “sale” under the CCPA and
+          failed to respond to GPC requests as legally valid opt-out requests. The
+          company was required to pay a fine of $1.2 million and agree to
+          substantial injunctive relief, including agreeing to treat GPC signals
+          as requests to opt out of the sale of personal information.</p>
+          <p><span class="change">[moved down]</span>
+            GPC is not necessarily intended to invoke every <span class="st">new</span> privacy right in
+          every jurisdiction. For example, GPC is not intended to globally invoke
+          data deletion rights on every website people visit. GPC is also not
+          intended to limit a first party’s use of personal information within the
+          first-party context (such as a publisher targeting ads to an individual
+          on its website based on that individual’s previous activity on that same
+          site). For that reason, GPC should not be interpreted as exercising the
+          CCPA’s right to limit the use of sensitive information in a first-party
+          context.</p>
+        </section>
+        <section>
+          <h4>Colorado Privacy Act</h4>
+          <p>In July 2021, Colorado enacted the <a
+          href="https://coag.gov/resources/colorado-privacy-act/">Colorado Privacy
+          Act (CPA)</a>, which offered similar — though slightly different —
+          protections as the California Consumer Privacy Act. One difference is
+          that the CPA offers two different though related opt-out rights — the
+          right to opt out of data sales and the right to opt out of cross-context
+          targeted advertising.</p>
+          <p>The text of the CPA explicitly provides for global privacy signals,
+          stating “a consumer may authorize another person, acting on the
+          consumer’s behalf, to opt out of the processing of the consumer’s
+          personal data . . . including through a technology indicating the
+          consumer’s intent to opt out such as a web link indicating a preference
+          or browser setting, browser extension, or global device setting.” See §
+          6-1-1306(a)(ii). The CPA then included a number of additional
+          requirements of global privacy signals, including: the signal should not
+          be sent by default but should reflect the user’s affirmative choice, it
+          should be as consistent as possible with similar mechanisms in other
+          states, and the user agent sending the signal should not “unfairly
+          disadvantage” another data controller.</p>
+          <p>The Colorado Privacy Act also directed the Colorado Attorney General
+          to issue more detailed regulations, including specifically on the
+          operation of global privacy signals. On March 2023, the Colorado
+          Attorney General’s office published the initial <a
+          href="https://coag.gov/app/uploads/2023/03/FINAL-CLEAN-2023.03.15-Official-CPA-Rules.pdf">regulations</a>
+          implementing the privacy law, including greater specificity on the
+          operation of universal opt-out mechanisms (see Part 5, Universal Opt-Out
+          Mechanism). These regulations provide clarity on a number of issues,
+          including restrictions on data use by companies receiving the signal.
+          The regulations also clarify the rules on default settings, stating that
+          general purpose, pre-installed browsers may not set universal opt-out
+          signals by default, but if a product is marketed as exercising users’
+          privacy choices, it may send an opt-out signal to controllers without
+          additional consent from the user.</p>
+          <p>The regulations also set up a “registry” of legally binding signals
+          under the law to provide greater clarity to businesses as to which
+          universal opt-out mechanisms must be treated as binding opt-out
+          requests. In October 2023, the Colorado Attorney General’s office issued
+          a call for proposals for signals that should be included in its
+          registry. In February 2024, the office published the first <a
+          href="https://coag.gov/uoom/">official registry</a> of legally binding
+          universal opt-out mechanisms. The only signal recognized as legally
+          binding was the Global Privacy Control.</p>
+        </section>
+        <section>
+          <h4>Connecticut Data Privacy Act</h4>
+          <p>
+            <a href="https://portal.ct.gov/ag/sections/privacy/the-connecticut-data-privacy-act">Connecticut Data Privacy Act</a>
+            has issued FAQs explicitly stating that GPC should be
+            treated as a universal opt-out.
+          </p>
+        </section>
+        <section>
+          <h4>New Jersey Data Privacy Law</h4>
+          <p>
+            <a
+            href="https://www.njconsumeraffairs.gov/ocp/Pages/NJ-Data-Privacy-Law-FAQ.aspx">New
+            Jersey Data Privacy Law</a> has issued FAQs explicitly stating that GPC should be
+            treated as a universal opt-out.
+          </p>
+        </section>        
+      </section>
+      <section id="potential-legal-effects">
+        <h3>Potential effects under existing laws</h3>
+        <section>
+          <h4>U.S. State Laws</h4>
+          <p>Since 2018, at least nineteen U.S. states have passed comprehensive state privacy laws that include, among other rights, the right to opt out of
+          the sale or sharing of personal information and/or the right to opt out
+          of cross-context targeted advertising. Many of these laws explicitly
+          state that consumers may exercise these rights through a universal
+          signal, including a signal sent through a browser or operating system.
+          At least four states have declared that receipt of a Global Privacy
+          Control signal is to be interpreted as a legally binding exercise of the
+          opt-out right in that state.</p>
+
+          <p>
+            <strong>States that explicitly provide for universal opt-out
+        mechanisms</strong>
+            In addition to California and Colorado, at least ten other states
+          have passed comprehensive privacy legislation that explicitly provides
+          for the operation of global privacy signals that must be treated as
+          legally binding opt-outs under the law. Most of these state laws are
+          broadly similar to the text of the Colorado Privacy Act, in that they
+          apply to both sales and cross-context targeted advertising, and have
+          similar provisions requiring, for example, that the signals reflect the
+          intent of the user and that they not unfairly disadvantage other
+          controllers.</p>
+          <p>However, they also differ in a number of key ways. As one example,
+          states like Texas and Nebraska provide that specific global opt-out
+          signals will be deemed valid if they are legally recognized in another
+          state jurisdiction. Most of these states do not provide for rulemaking
+          from the Attorney General to issue more clarity on the operation of the
+          global opt-out provisions, though regulators may offer more informal
+          guidance through FAQs (as California originally did) or may bring
+          enforcement actions to clarify the boundaries of the law.</p>
+          
+          <p>
+            <strong
+          id="states-that-have-privacy-law-that-is-silent-on-universal-opt-out-mechanisms">
+          States that have privacy law that is silent on universal opt-out
+          mechanisms</strong>
+          Some U.S. states have passed comprehensive privacy laws that make no
+          mention of universal opt-out mechanisms. It is not clear what legal
+          effect — if any — global mechanisms like GPC would have in such states.
+          Because those state laws give significant discretion to companies in how
+          opt-out rights are offered to consumers, it may well be the case that
+          universal opt-out signals would have no effect under those laws.
+          However, the ultimate interpretation of those laws lies with local
+          enforcement agencies and the courts.</p>
+        </section>
+        <section class="change">
+          <h4>EU/EEA and GDPR</h4>
+          <p>The European Union (EU) and European Economic Area (EEA) 
+            enforce the General Data Protection Regulation (GDPR). 
+            The GDPR is a horizontal regulation that governs all processing
+            (Article 4-2, e.g. collect, store, use, share, erase) 
+            of personal data (Article 4-1), and requires
+            that all processing be justified through at least one 'legal basis' (Article 6),
+            such as informed consent, contracts, or "legitimate interests".
+            The GDPR also provides individuals (called 'data subjects', Article 4-1) with
+            specific rights which include transparency before any processing takes place
+            where the data subject must be provided information regarding what data is being processed, why, by whom, etc. (Article 12-14), the right to withdraw their
+            given consent (Article 7-3), and to object to the use of legitimate interests (Article 21). 
+          </p>
+          <p>
+            As explained earlier in [[[#gpc-signal-specification]]], the GPC signal can
+            indicate preferences regarding refusing to opt-in and asking to opt-out. In the context of the GDPR, opt-ins can be treated as analogous to giving informed consent (Article 6-1a), and opt-out can be analogous to withdrawing given consent (Article 7-3) and objecting to legitimate interests (Article 6-1f). In this, it is important to note that
+            the GDPR Article 6-1f specifically distinguishes between legitimate interests of
+            the 'data controller' (which may be the same as first party in GPC) and those of 'third parties' (which may be the same as third parties in GPC). 
+            Of these, the GDPR only explicitly acknowledges the objection to
+            legitimate interests to be made "<i>by automated means using technical specifications</i>", which includes signals like GPC.
+            Other uses of signals, though not explicitly permitted in the GDPR, are 
+            also not prohibited.
+          </p>
+          <p>
+            Within the EU's legal framework, it is unusual for laws such as the GDPR
+            to explicitly refer to a specific technical specification and to dictate
+            that it is binding. Instead, the EU legal framework relies on several mechanisms
+          through which signals could become legally enforceable. These include:</p>
+          <ol type="i">
+            <li><i>harmonised standards</i>: Standards explicitly dictated by law and developed by one of the recognised EU standardisation bodies. For GPC, the harmonised standard would state the effects of GPC and be published by a body such as CEN or ETSI.</li>
+            <li><i>de-facto standards</i>: Technologies widely adopted such that it becomes part of common expectations to consider them as being supported. This could happen if GPC were to be standardised and is implemented by all major browsers or websites.</li>
+            <li><i>authoritative adoption</i>: A law gives an authority or body the power to dictate whether a technical specification should be binding. In the case of GDPR, it does not explicitly provide such powers to authorities.</li>
+            <li><i>court interpretation</i>: A court confirms that a privacy signal is legally relevant. This can be seen from a recent case law where the use of DNT signal was confirmed as being relevant by a German court (<a href="https://www.vzbv.de/en/court-prohibits-linkedins-data-privacy-infringements">case 16 O 420/19, District Court Berlin</a>).
+          </ol>
+          <p>GDPR authorities cannot unilaterally make a signal like GPC legally binding without relevant support from the law. Article 21-5 explicitly provides for automated means such as GPC to be used to object to legitimate interests, which could be confirmed by GDPR authorities or courts. A similar use of the GPC signal regarding refusal or withdrawal of consent does not have a similar explicit support. However, as noted above, if a technology becomes widely adopted, then it may be considered as binding by the authorities as part of the 'data protection by design and default' requirements of the GDPR (Article 25) which require the adoption of technical measures such as data minimisation. The GDPR authorities can however recommend that GPC be used as part of their guidance and campaigns in order to speed up the process. </p>
+          <p>
+            A GPC signal, in the context of the GDPR, can be interpreted based on the
+            context of the situation. Since the GPC only acts regarding data being
+            shared or sold with third parties or being used for cross-context ad targeting, 
+            it could be considered relevant
+            only for those consent or legitimate interests where these categories
+            of processing are involved. 
+            More specifically, the GPC's communication of a user's preference can be 
+            considered as "<i>an indication of the data subject's wishes</i>" (Article 4-11),
+            and it would then up to the data controller to consider how best to implement these.
+            If the processing were to take place using consent, this could indicate
+            that the data subject does not wish to consent. Similarly, if it were taking
+            place using legitimate interests, it could mean the data subject wishes
+            to object to them.
+          </p>
+          <p>
+            Further information may be found in relevant literature:
+          </p>
+          <ol type="-">
+            <li><a href="https://berjon.com/gpc-under-the-gdpr/">GPC under the GDPR</a></li>
+            <li>Zimmeck, S., Pandit, H. J., Borgesius, F. Z., Santos, C. T., Kollnig, K., & Berjon, R. (2025). <a href="https://doi.org/10.48550/arXiv.2512.08856">Can the GPC standard eliminate consent banners in the EU?</a>. arXiv preprint arXiv:2512.08856.</li>
+          </ol>
+        </section>
+        <section>
+          <h4>Mauritius Data Protection Act</h4>
+          <p>Mauritius, an African country, has the Data Protection Act (DPA). The
+          DPA was inspired by the GDPR. The law provides for a number of bases for
+          data processing, including consent and the “legitimate interest” of the
+          data controller. For processing pursuant to a company’s “legitimate
+          interest,” Article 24 of the DPA offers people an ability to opt out of
+          such processing. As GPC is intended to convey a general request that
+          data controllers limit the sale or sharing of the person’s personal data
+          to other data controllers, Mauritian regulators may deem GPC to
+          constitute a legally binding invocation of Article 24 rights. That would
+          be the case if people’s GPC opt out preferences are their only known opt
+          out preferences or their GPC opt out preferences are in line with any
+          other opt out preferences they invoked. However, in case of conflicts
+          there might be ambiguities as there is no explicit mention of global
+          opt-out mechanism winning over a direct consent to a specific sharing
+          request on a specific site.</p>
+        </section>
+        <section>
+          <h4>Bermuda</h4>
+          <p>The Privacy Commissioner of Bermuda has also <a
+          href="https://www.privacy.bm/post/global-privacy-control-interoperability-in-action">written</a>
+          that GPC may ultimately be interpreted to exercise legal rights under
+          its Personal Information and Privacy Act.</p>
+        </section>
+      </section>
+      <section>
+        <h3>Potential effects through future laws</h3>
+        <section>
+          <h4>U.S. Laws</h4>
+          <p>
+            <strong id="federal-law-and-states-without-dedicated-privacy-laws">
+          Federal law and states without dedicated privacy laws</strong>
+          The majority of U.S. states have not enacted comprehensive privacy
+          legislation, and federally there is no privacy statute specifically
+          covering commercial information. The Federal Trade Commission and state
+          Attorneys General have enforced general purpose consumer protection law
+          that prohibits unfair or deceptive practices against certain privacy
+          behaviors, though none have made a specific claim about how GPC
+          intersects with those laws. The FTC has proposed to issue regulations
+          under its consumer protection statute governing “surveillance
+          capitalism,” and <a
+          href="https://advocacy.consumerreports.org/wp-content/uploads/2022/01/CR_Epic_FTCDataMinimization_012522_VF_.pdf">some
+          privacy advocacy groups have argued</a> that failure to respond to
+          universal opt-out requests could be treated as an unfair business
+          practice under such a regulation.</p>
+        </section>
+        <section>
+          <h4>EU Laws</h4>
+          <p>
+            The EU Commission has proposed a revision of the GDPR as part of its
+            <a href="https://digital-strategy.ec.europa.eu/en/library/digital-omnibus-regulation-proposal">Digital Omnibus proposal</a>.
+            One of the proposed mechanisms (Article 88b) introduced is the use of technical 
+            specifications to automate consent. If accepted, the proposal
+            will require an EU standardisation body (such as CEN or ETSI) to
+            develop a 'harmonised standard' which would be considered legally binding.
+            While the proposal requires the mechanism to support both giving and
+            refusing/withdrawing consent, it could also be used to justify GPC
+            as a binding mechanism for the refusing/withdrawing of consent and the
+            objection to legitimate interests.
+          </p>
+        </section>
+      </section>
+    </section>
+    <section>
+      <h2 id="user-experience-considerations-and-recommendations">5. User
+      Experience Considerations and Recommendations</h2>
+      <p>It is not considered standard for W3C specifications to present user
+      interface recommendations or restrictions. User interfaces are the
+      domain of user-agents who, being closest to the user, best understand
+      how their users interpret and react to the underlying functionality. For
+      GPC, some user-agents may present themselves as privacy-focused
+      technology, in which case it may make sense for the signal to be
+      defaulted to on, which, for example, is supported in California and
+      Colorado for privacy-focused technology. Some user-agents may be
+      generic, with no expectation for people setting defaults. Some
+      user-agents may present GPC in different formats and devices and
+      necessitate unique user interface requirements.</p>
+      <p>This Guide presents examples of user-agent user interfaces for GPC as
+      an aid to adopters who are interested in or required to implement GPC as
+      to how it can be presented.</p>
+      <h3 id="example-presentations-of-user-agent-level-ui">5.1 Example
+      Presentations of User-agent Level UI</h3>
+      <p>The following examples come from the <a
+      href="https://github.com/privacy-tech-lab/gpc-optmeowt">OptMeowt browser
+      extension</a>, which is developed at the <a
+      href="https://privacytechlab.org/">privacy-tech-lab</a> at Wesleyan
+      University. We also show how Mozilla surfaces the GPC setting in
+      Firefox. These examples are shown to illustrate. They are not meant as a
+      comprehensive set of UIs for GPC.</p>
+      <p>Whichever user interface applications are implemented, they are
+      expected to meet accessibility standards.</p>
+      <p>User interfaces are further expected to have a clear visible switch
+      for turning on the GPC signal that can clearly distinguish between
+      active and inactive. <strong>For GPC “active” always means an individual
+      is exercising their choice to opt out of sharing and cross-site usage to
+      the extent provided by the law.</strong></p>
+      <p><img src="assets/images/OptMeowt_Popup.png" alt="OptMeowt Popup" />
+      The OptMeowt popup showing GPC details of the current site.</p>
+      <p>User-agents may choose to allow people to manage the GPC signal for
+      individual domains. The Individual domains can be represented to the
+      user as a list that clearly indicates their settings. In such a list
+      people may be able to add individual domains, domains may be
+      automatically added, and people may manage domains on which they have
+      already made an active choice, or exclude domains from the GPC opt out
+      signal being active. When people choose a GPC setting for a site, it is
+      expected that the user-agent retain that setting until they make an
+      active choice to change it.</p>
+      <p><img src="assets/images/OptMeowt_Domain_List.png"
+      alt="OptMeowt Domain List" /> The OptMeowt domain list for setting GPC
+      on individual sites.</p>
+      <p>It is expected that most people will choose if they want to
+      universally activate GPC across all domains and requests. Interfaces
+      should reflect GPC’s intent to be as straightforward and simple as
+      possible. People may also choose to disable GPC universally for their
+      user-agent.</p>
+      <p><img src="assets/images/OptMeowt_Universal_Setting.png"
+      alt="OptMeowt Universal Setting" /> The universal GPC setting of
+      OptMeowt.</p>
+      <p><img src="assets/images/Firefox_Universal_Setting.png"
+      alt="Firefox Universal Setting" /> The universal setting of GPC in the
+      Firefox browser settings.</p>
+      <p>A user interface can show what response is at
+      <code>https://{yourwebsite.com}/.well-known/gpc.json</code> and display
+      that information to the users so they can understand what claims the
+      website is making in terms of GPC compliance. This can be done
+      regardless of the properties included on the JSON document, the main
+      concern is the value of the <code>gpc</code> property, as seen here.</p>
+      <p><img src="assets/images/OptMeowt_GPC_Response.png"
+      alt="OptMeowt GPC Response" /> An example of how GPC responses can be
+      surfaced (OptMeowt).</p>
+      <h3 id="user-agents">5.2 User-agents</h3>
+      <p>The above examples are from an extension in a web browser.
+      User-agents should implement similar interface conventions. The authors
+      of this document recommend that user-gents have some way to display to
+      people the state of their GPC signal when it is on during the course of
+      regular interaction with the site instead of putting it behind a
+      settings page.</p>
+      <p>A setting should be included to manage GPC. At the very least a
+      simple Boolean-value switch should be available to the user within
+      settings to manage GPC universally for the user-agent.</p>
+      <p>If GPC is not turned on by default, there should be a control that is
+      accessible to people to turn it on when interacting with an individual
+      site.</p>
+      <p>If the user-agent makes the GPC setting visible when active, it
+      should retain individuals’ privacy choices when they turn off GPC for a
+      specific site.</p>
+      <p>User-agents should not challenge people with a request to set GPC in
+      either mode beyond initial setup. Per-domain settings of GPC should be
+      up to an individual to engage with, not pushed via a notification,
+      modal, pop-up, or similar interactive element.</p>
+      <p>Many user-agents offer a “private browsing” or “incognito” mode that
+      provides heightened privacy protections when in use, such as not
+      retaining local history or cookies at the end of a session. Depending
+      upon how that private mode is described to users, the developers of the
+      user-agent may deem it appropriate to send GPC to websites while this
+      mode is activated as a means of offering additional privacy protection.
+      While browser developers make decide that additional consent or user
+      prompting is unnecessary before sending GPC in such cases, they should
+      be transparent about the fact that in “private” or “incognito” mode, GPC
+      will be sent.</p>
+      <h3 id="adopting-on-your-website">5.3 Adopting on Your Website</h3>
+      <p>Given the complexities of existing privacy choice and consent
+      frameworks, sites that implement GPC should disclose how they treat it
+      in any jurisdiction for which they adopt it and how they deal with
+      conflicts between a GPC signal and other specific privacy choices that
+      an individual has already made directly with the site, including
+      instances where third party sharing may be permitted, such as sharing to
+      service providers/processors or at the direction of the individual.</p>
+      <p>Where industry standards set specific strings or signals that are
+      needed to communicate people’s privacy choices, sites should anticipate
+      translating GPC into the downstream signal. A good example of such
+      setting is handling GPC to set California-based US Privacy Strings for
+      advertising technology:</p>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+      <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">navigator</span><span class="op">.</span><span class="at">globalPrivacyControl</span> <span class="op">&amp;&amp;</span></span>
+      <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    identityObject<span class="op">.</span><span class="at">geoState</span> <span class="op">===</span> <span class="st">&#39;CA&#39;</span></span>
+      <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>) {</span>
+      <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">uspapi</span><span class="op">.</span><span class="at">uspStringSet</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+      <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">uspapi</span><span class="op">.</span><span class="fu">setUSPString</span>(<span class="vs">`1YYY`</span>)<span class="op">;</span></span>
+      <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span></span></code></pre></div>
+      <p>Setting the USPAPI for propagating GPC downstream.</p>
+      <p>Generally website developers should consider GPC signals to be
+      identical to a user flipping the opt out switch on their website and
+      take action accordingly.</p>
+      <h3 id="consent-to-disregard-a-universal-gpc-signal">5.4 Consent to
+      Disregard a Universal GPC Signal</h3>
+      <p>A do-not-sell-or-share preference is when a person generally requests
+      of all website publishers that their data “not be sold or shared.”
+      However, it is possible that a particular publisher would seek to enter
+      into a separate agreement with a user permitting that publisher to sell
+      or share the user’s data notwithstanding the general preference. The GPC
+      spec does not provide for a mechanism or syntax to negotiate or indicate
+      such an exception, so any user consent to tracking would be communicated
+      apart from the GPC signal.</p>
+      <p>When and how a separate agreement to disregard GPC requests overrides
+      the legal status of the signal will be a matter of local law. Some
+      jurisdictions that have explicitly endorsed GPC as a legally binding
+      opt-out signal have also placed limitations on how companies can request
+      permission to track despite the general signal. One rationale for such
+      limitations is that without some restrictions, users with GPC enabled
+      could be inundated with countless requests for exceptions to track as
+      they browse the internet — undermining the fundamental purpose of
+      offering a simple, binary universal opt-out tool. Both California and
+      Colorado, for example, constrain how overrides for universal opt-out
+      signals like GPC can be requested, including rules against retaliating
+      against users for exercising privacy rights, conditions for valid
+      consent, and limiting how frequently companies can ask consumers to
+      reconsider opt-out requests.</p>
+      <h2 id="alternatives-considered">6. Alternatives Considered</h2>
+      <p>The authors of GPC considered other options for how the signal would
+      work. The current state of privacy controls across the world is varied.
+      The authors have experience both working on and implementing these more
+      complex controls and found that people generally consider them to be
+      unnecessarily complex. If people intend to make privacy choices, they
+      almost always intend to exercise their rights broadly, e.g., opting out
+      from all sites they visit, no matter how many individual controls exist.
+      More recent laws have also adopted this understanding and moved towards
+      requiring universal or significantly fewer degrees of control. GPC
+      reflects this understanding of people’s privacy choices and, therefore,
+      works in support of these laws.</p>
+      <p>The signal has been through a few iterations with the specification
+      before it was submitted to the W3C. More complex signals, more extensive
+      data, and different delivery formats were all considered. Additional
+      complexity in the signal creates fingerprinting risk. Delivering the
+      signal for JavaScript-based consumers via a promise was considered as a
+      more privacy-preserving option that would allow greater complexity but
+      was rejected to prefer performance and simplicity.</p>
+      <p>Removal of the GPC Support Resource was considered as well as further
+      simplification of the contents. However, the maintenance of both the GPC
+      Support Resource as an indicator of compliance and the presentation of
+      the date were both reinforced during consultation with lawyers as
+      extremely useful for maintaining documented compliance and dealing with
+      potential legal activity, especially in cases of specification
+      updates.</p>
+    </section>
+  </body>
+</html>

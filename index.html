@@ -95,6 +95,10 @@
         },
       };
     </script>
+    <style>
+      .change { color: blue; }
+      .st { text-decoration: line-through; color: red; }
+    </style>
   </head>
   <body>
     <section id="abstract">
@@ -395,65 +399,54 @@
     </section>
     <section class="informative">
       <h2>Legal Effects</h2>
-      <p>
-        The GPC signal was designed to allow users to take advantage of legal rights to stop certain
-        sharing or processing of their data. As such, the sending and receipt of a GPC signal may
-        have legal effects, depending on factors such as the location of the individual sending the
-        signal, the scope of the applicable law, as well as any separate agreement between the
-        recipient of the signal and the individual. However, GPC is not necessarily intended to invoke
-        every new privacy right in every jurisdiction. For additional details on legal effects, 
-        <a href="https://w3c.github.io/gpc/explainer" target="_blank">consult the Legal and
-        Implementation Considerations Guide</a>.
-      </p>
-      <p>
-        For example, the use of the GPC signal by an individual will be intended to communicate the
-        individual's intention to invoke the following rights, as applicable:
-      </p>
-      <h3>United States Privacy Law</h3>
-      <p>
-        GPC was originally created to take advantage of new opt-out privacy laws in the United States.
-        Starting with the enactment of the California Consumer Privacy Act in 2018, several U.S. states
-        have passed privacy laws that give consumers the legal right to opt out of the sale or share of
-        their data, or the use of their data for cross-organization targeted advertising. Many of those state
-        laws make explicit provision for the exercise of those rights through universal opt-out mechanisms
-        such as the GPC. At least four states have specifically identified GPC as a valid means to exercise
-        legal opt-out rights. A minority of states provide for rulemaking procedures to allow regulators
-        to expand on the specifics of how universal opt-out requests should be honored; other states may
-        rely upon informal guidance or enforcement actions to provide clarity on the scope of legal
-        obligations around GPC signals.
-      </p>
-      <h3>Other Jurisdictions and Privacy Rights</h3>
-      <p>
-        GPC could potentially be used to indicate rights in other jurisdictions as well. For example, the
-        GDPR potentially affords data subjects the right to limit the sharing of personal information under
-        Articles 7 and 21. Many other countries around the world have adopted affirmative privacy
-        legislation — often modeled on the GDPR; a regulator in one of those countries could determine that
-        GPC invokes a legal right that requires some response from a recipient.
-      </p>
-      <p>
-        Other US state privacy laws, such as those in Virginia and Utah, give consumers new opt-out
-        rights around data sales and cross-organization targeted advertising but are silent on the legal
-        effect of global opt-out signals. Regulators enforcing those statutes may determine that a user
-        activating a signal such as GPC may be sufficient to legally exercise opt-out rights in
-        those jurisdictions.
-      </p>
-      <p>
-        However, GPC is not necessarily intended to invoke every new privacy right in every
-        jurisdiction. For example, GPC is not intended to globally invoke data deletion rights on
-        every website visited by the user. GPC is also not intended to limit a first party’s use of
-        personal information within the first-party context (such as a publisher targeting ads to a
-        user on its website based on that user’s previous activity on that same site).
-      </p>
-      <p>
-        Given the complexities of existing consent frameworks, publishers who accept the GPC signal
-        should disclose how they treat the GPC signal in that jurisdiction and how they deal with
-        conflicts between the signal and other specific privacy choices that the person has already
-        made directly with the publisher, including instances where third party sharing may be
-        permitted such as sharing to service providers/processors, sharing at law or at the
-        direction of the individual.
+      <p class="change">
+          This specification is agnostic as to the <i>legal effects</i> 
+          of the GPC signal and intentionally does not restrict the
+          interpretation of GPC under any specific law or jurisdiction.
+          This specification only defines how the user and website, 
+          as willing parties who act in conformance with this specification, 
+          can utilise the GPC signal to communicate and implement the user's intent 
+          to limit the selling or sharing of their personal data. 
+          However, the use of GPC may create legal effects depending on its interpretation
+          and implementation within specific jurisdictions. Examples of legal 
+          effects are as an obligation to respect the GPC signal or as
+          an implementation of specific user rights. 
+          The determination of legal effects depends on contextual factors such as the user's location, jurisdiction of applicable laws, and existing 
+          agreements between the user and the website. It is therefore 
+          encouraged for respective jurisdictions and their authorities to 
+          determine how GPC should be interpreted and enforced based on the 
+          relevant laws.
       </p>
       <section>
-        <h2>User Interface Language</h2>
+        <h3>Legal Interpretation</h3>
+        <p class="change">
+          Given the complexities of existing legal frameworks, websites who accept the GPC signal
+          should disclose whether and how they implement the GPC signal in that jurisdiction. Websites should also disclose how they deal with
+          conflicts between the signal and other specific privacy choices that the person has already
+          made, including instances where third party sharing may be
+          legally permitted such as sharing necessary for service provision, legal purposes or at the
+          direction of the individual.
+        </p>
+        <p class="change">
+          Following is an example of how U.S. State privacy laws codified the legal effects of using GPC.
+          The development of GPC happened in tandem with new privacy laws in the United Sates (U.S.), especially those in California. Starting with the enactment of the <a href="https://www.oag.ca.gov/privacy/ccpa">California Consumer Privacy Act</a> in 2018, other U.S. states also
+          passed privacy laws that give consumers the legal right to opt out of the sale or share of
+          their data, or the use of their data for cross-organization targeted advertising. Many of those state
+          laws make explicit provision for the exercise of those rights through universal opt-out mechanisms.
+          At least four states have specifically identified GPC as a valid means to exercise
+          legal opt-out rights. A minority of states provide for rulemaking procedures to allow regulators
+          to expand on the specifics of how universal opt-out requests should be honored; whereas other states
+          rely upon informal guidance or enforcement actions to provide clarity on the scope of legal
+          obligations around GPC signals.
+        </p>
+         <p class="change">
+          More information on legal effects is provided in
+          <a href="https://w3c.github.io/gpc/explainer" target="_blank"> the Legal and
+          Implementation Considerations Guide</a>.
+        </p>
+      </section>
+      <section>
+        <h2><span class="change">User Experience</h2>
         <p>
           This document does not specify what information must be presented to a user before activating
           GPC. When a user agent promotes a privacy feature or offers a privacy setting, it can make the
@@ -461,40 +454,48 @@
           
           User agents SHOULD strive to represent what the user agent best believes to be the person's
           preference for the Global Privacy Control value. While studies have shown that most people do not
-          want their data sold or shared, some jurisdictions have enacted "opt-out" legal frameworks
+          want their data sold or shared <span class="change">or uded for targeted advertising</span>, 
+          <span class="st">some jurisdictions have enacted "opt-out" legal frameworks
           where consumers have to take an affirmative action to express a [=preference=] to limit data
-          sharing or the use of their data for targeted advertising. GPC is designed to let users easily
-          take advantage of these laws.
+          sharing or the use of their data for targeted advertising.</span>
+          <span class="change">requirements vary by jurisdiction for 
+          whether users are required to express a [=preference=] to enable such
+          sharing (opt-in) or to prevent it (opt-out).</span>
+          GPC is designed to let users easily
+          take advantage of these laws<span class="change">, for example
+          by using the GPC signal as a [=preference=] that they do not want to
+          opt-in, or to indicate that they wish to opt-out.</span>
         </p>
-        <p>
-          Different jurisdictions have different prerequisites before a platform can enable a universal
-          opt-out like GPC. Many US states say that a user agent may not send a universal opt-out signal by
-          "default," though at least one state has said that selecting a privacy focused user agent is a
+        <p class="change">
+          Jurisdictions may have varying prerequisites before a website can enable signal like GPC. For example, some U.S. states require that a user agent may not send a universal opt-out signal by
+          "default," though at least one state (California?) has said that selecting a privacy focused user agent is a
           sufficient indicator of user intent.
+        </p>
+        <p class="changed">
+          Jurisdictions may also have specific requirements about informing
+          users before a opt-in or opt-out is accepted. User agents are expected, where required, to present all the appropriate notices to people
+          to ensure that the rights they wish to avail themselves of are effectively binding.
         </p>
         <p>
           Different jurisdictions may also have different rules for when companies can override or disregard
-          a universally applicable opt-out signal,
+          <span class="st">a universally applicable opt-out signal</span><span class="change">the GPC signal</span>,
           for example because they have consent from the user to do so.
         </p>
         <p>
-          The legal landscape around global opt-outs is also changing. Several states have now passed
-          laws that include requirements to honor global opt-outs, though some of those states’ provisions
-          differ considerably. Additionally states may revise their legal requirements as California has
-          already amended the original CCPA that was passed in 2018.
+          The legal landscape around <span class="st">global opt-outs</span>
+          <span class="change">privacy signals</span> is also changing. Several <span class="change">U.S.</span> states have now passed
+          laws that include requirements to honor global opt-outs, <span class="change">as mentioned in the previous section,</span> though <span class="st">some of those states’</span> provisions
+          differ considerably. <span class="st">Additionally states may revise their legal requirements as California has
+          already amended the original CCPA that was passed in 2018.</span>
         </p>
-        <p>In addition to the United States, other jurisdictions may recognize universal privacy signals
+        <p><span class="st">In addition to the United States<span class="st"><span class="change">Similar to the U.S. states</span>, other jurisdictions may recognize universal privacy signals
           and may impose their own requirements before such signals are deemed legally binding.
         </p>
         <p>
-          For more information on the latest legal requirements, please review the
+          For more information on the <span class="st">latest legal requirements</span>, please review the
           <a href="https://w3c.github.io/gpc/explainer" target="_blank">Legal and Implementation
-          Considerations Guide</a> which will provide more up-to-date information about the latest legal guidance
-          around global opt-outs.
-        </p>
-        <p>
-          User agents are expected, where required, to present all the appropriate notices to people
-          to ensure that the rights they wish to avail themselves of are effectively binding.
+          Considerations Guide</a><span class="st"> which will provide more up-to-date information about the latest legal guidance
+          around global opt-outs</span>.
         </p>
       </section>
     </section>
